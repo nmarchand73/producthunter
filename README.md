@@ -20,8 +20,8 @@ A Python command-line tool that automatically scrapes ProductHunt website daily 
 
 ```bash
 # Clone the repository
-git clone <repository-url>
-cd PRODUCT_HUNT
+git clone https://github.com/nmarchand73/producthunter.git
+cd producthunter
 
 # Create virtual environment
 python -m venv venv
@@ -115,7 +115,7 @@ The tool generates daily JSON files named `market-intel-YYYY-MM-DD.json` contain
 ### Project Structure
 
 ```
-PRODUCT_HUNT/
+producthunter/
 ├── src/
 │   ├── __init__.py          # Package initialization
 │   ├── main.py              # CLI entry point
@@ -127,6 +127,7 @@ PRODUCT_HUNT/
 ├── tests/                   # Unit tests
 ├── requirements.txt         # Python dependencies
 ├── .env.example            # Environment variables template
+├── debug_scraper.py        # Development debugging tools
 └── README.md               # This file
 ```
 
