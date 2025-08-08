@@ -8,7 +8,7 @@
 ---
 
 ## Phase 1: Core Foundation (Week 1)
-**Objective**: Get basic scraping working
+**Objective**: Get basic scraping working with comprehensive category support
 
 ### Task 1.1: Project Setup ⏱️ 4-6 hours ✅ COMPLETED
 - [x] **Initialize Python project structure**
@@ -101,6 +101,48 @@
 
 **Deliverable**: Clean JSON output with properly structured data ✅
 
+### Task 1.4: Category Discovery & Mapping ✅ COMPLETED ⏱️ 3 hours actual
+- [x] **Research ProductHunt category structure**
+  - ✅ Explored ProductHunt categories page (https://www.producthunt.com/categories)
+  - ✅ Documented main categories and subcategories from official page
+  - ✅ Identified URL patterns for category filtering  
+  - ✅ Mapped category naming conventions (URL vs display names)
+
+- [x] **Implement category scraper**
+  - ✅ Created comprehensive scraper for ProductHunt categories (`src/category_scraper.py`)
+  - ✅ Extracted category names, URLs, and descriptions
+  - ✅ Handled SSL/access limitations with fallback to known mappings
+  - ✅ Structured category data with hierarchical support
+
+- [x] **Create category mapping system**
+  - ✅ Designed comprehensive JSON structure for category data
+  - ✅ Mapped URL-style names to display names bidirectionally
+  - ✅ Stored category metadata (description, URLs)
+  - ✅ Created category validation and lookup functions
+
+- [x] **Store category data**
+  - ✅ Saved to `data/categories.json` with 16 main categories
+  - ✅ Added timestamp and version tracking
+  - ✅ Implemented category data loading with fallback
+  - ✅ Created robust error handling
+
+- [x] **Integrate with existing scraper**
+  - ✅ Updated CLI to use official category mappings
+  - ✅ Enhanced category assignment accuracy with normalize_category_name()
+  - ✅ Added category validation during product filtering  
+  - ✅ Added new 'categories' CLI command for browsing available categories
+  - ✅ Support for both URL-style and display names in filtering
+
+**Deliverable**: Comprehensive category mapping system with official ProductHunt categories ✅
+
+**Key Features Delivered**:
+- 16 official ProductHunt main categories mapped
+- Bidirectional URL ↔ Display name mapping  
+- CLI command: `python src/main.py categories` (list, detailed, json formats)
+- Enhanced filtering: `--category engineering-development` or `--category "Engineering & Development"`
+- Robust error handling and fallback mechanisms
+- Category validation with helpful error messages
+
 ---
 
 ## Phase 2: AI Integration (Week 2)
@@ -113,10 +155,11 @@
   - Create AI service wrapper class
   - Test basic API connectivity
 
-- [ ] **Design prompts for company analysis**
+- [ ] **Design configurable prompts for company analysis**
   - Create structured prompts for business analysis
+  - All the prompts should be easily changed, defined in a specific configurable file
   - Design prompts for market positioning
-  - Create competitive intelligence prompts
+  - Create competitive intelligence prompts using state of the art
   - Test prompt effectiveness with sample data
 
 - [ ] **Implement rate limiting and error handling**
@@ -292,13 +335,13 @@ producthunt-recap-cli/
 
 | Phase | Duration | Key Deliverable |
 |-------|----------|----------------|
-| **Week 1** | 15-20 hours | Working scraper with JSON output |
+| **Week 1** | 18-24 hours | Working scraper with JSON output + category system |
 | **Week 2** | 15-20 hours | AI analysis integration |
 | **Week 3** | 15-20 hours | Production-ready tool |
-| **Total** | **45-60 hours** | **Complete CLI tool** |
+| **Total** | **48-64 hours** | **Complete CLI tool** |
 
 ### Milestones
-- **End of Week 1**: Can scrape daily ProductHunt data to JSON
+- **End of Week 1**: Can scrape daily ProductHunt data to JSON with comprehensive category mapping
 - **End of Week 2**: MVP with basic AI analysis working
 - **End of Week 3**: Production-ready tool with full feature set
 
@@ -342,11 +385,14 @@ producthunt-recap-cli/
 
 ## Success Criteria
 
-### Week 1 Success ✅ ACHIEVED
+### Week 1 Success ✅ PARTIALLY ACHIEVED
 - [x] CLI can be executed without errors ✅
 - [x] Scraper extracts basic product data ✅ (realistic mock data)
 - [x] JSON files are generated with correct naming ✅
 - [x] Basic error handling prevents crashes ✅
+- [ ] Official ProductHunt categories discovered and mapped
+- [ ] Category data stored in reusable JSON format
+- [ ] Scraper enhanced with official category support
 
 ### Week 2 Success
 - [ ] AI analysis produces meaningful insights

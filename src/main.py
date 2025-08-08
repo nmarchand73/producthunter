@@ -30,6 +30,32 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+def load_categories_data():
+    """Load ProductHunt categories data from JSON file."""
+    try:
+        categories_file = Path(__file__).parent.parent / "data" / "categories.json"
+        with open(categories_file, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        logger.warning("Categories file not found. Using basic category mapping.")
+        return {
+            "display_to_url_mapping": {
+                "engineering & development": "engineering-development",
+                "developer tools": "engineering-development",
+                "design & creative": "design-creative",
+                "work & productivity": "work-productivity"
+            },
+            "url_to_display_mapping": {
+                "engineering-development": "Engineering & Development",
+                "design-creative": "Design & Creative",
+                "work-productivity": "Work & Productivity"
+            }
+        }
+    except Exception as e:
+        logger.error(f"Error loading categories data: {e}")
+        return {"display_to_url_mapping": {}, "url_to_display_mapping": {}}
+
+
 def normalize_category_name(category_name):
     """Convert category names between display format and URL format.
     
@@ -37,47 +63,34 @@ def normalize_category_name(category_name):
         category_name: Category name in either format
         
     Returns:
-        Normalized category name for comparison
+        Normalized category name for ProductHunt URL or display format
     """
-    # Mapping between ProductHunt URL categories and our display categories
-    category_mappings = {
-        'engineering-development': 'developer tools',
-        'developer-tools': 'developer tools',
-        'dev-tools': 'developer tools',
-        'productivity': 'productivity',
-        'analytics': 'analytics',
-        'data-analytics': 'analytics',
-        'marketing': 'marketing',
-        'marketing-tools': 'marketing',
-        'collaboration': 'collaboration',
-        'team-collaboration': 'collaboration',
-        'customer-success': 'customer success',
-        'customer-support': 'customer success',
-        'finance': 'finance',
-        'fintech': 'finance',
-        'design-tools': 'design tools',
-        'design': 'design tools',
-        'security': 'security',
-        'cybersecurity': 'security',
-        'social-media': 'social media',
-        'social-media-tools': 'social media',
-        'social-networking': 'social media'
-    }
+    if not category_name:
+        return None
     
-    # Normalize input
-    normalized_input = category_name.lower().strip()
+    categories_data = load_categories_data()
+    category_lower = category_name.lower().strip()
     
-    # Check if it's a URL-style category
-    if normalized_input in category_mappings:
-        return category_mappings[normalized_input]
+    # Check if it's already a valid URL-style category
+    if category_lower in categories_data.get("url_to_display_mapping", {}):
+        return category_lower
     
-    # Check if it's already a display-style category
-    display_categories = set(category_mappings.values())
-    if normalized_input in display_categories:
-        return normalized_input
+    # Check display to URL mapping
+    if category_lower in categories_data.get("display_to_url_mapping", {}):
+        return categories_data["display_to_url_mapping"][category_lower]
     
-    # Return as-is if no mapping found
-    return normalized_input
+    # Fallback: basic normalization for unknown categories
+    import re
+    normalized = re.sub(r'[^\w\s-]', '', category_lower)
+    normalized = re.sub(r'\s+', '-', normalized.strip())
+    normalized = re.sub(r'-+', '-', normalized)
+    return normalized.strip('-')
+
+
+def get_category_display_name(category_url_name):
+    """Get the display name for a category URL name."""
+    categories_data = load_categories_data()
+    return categories_data.get("url_to_display_mapping", {}).get(category_url_name, category_url_name)
 
 
 def find_products_by_category(products_data, category_filter):
@@ -413,6 +426,63 @@ def main(ai_analysis, mode, date, output_dir, category, quiet, verbose):
     except Exception as e:
         logger.error(f"Error during execution: {str(e)}")
         click.echo(f"❌ Error: {str(e)}", err=True)
+        sys.exit(1)
+
+
+@cli.command()
+@click.option('--format', type=click.Choice(['list', 'json', 'detailed']), default='list',
+              help='Output format for categories')
+def categories(format):
+    """List all available ProductHunt categories and subcategories."""
+    try:
+        categories_data = load_categories_data()
+        
+        if format == 'json':
+            click.echo(json.dumps(categories_data, indent=2))
+            return
+        
+        main_categories = categories_data.get('categories', {})
+        
+        if format == 'detailed':
+            click.echo("🏷️  ProductHunt Categories (Detailed)")
+            click.echo("=" * 60)
+            
+            for url_name, category_info in main_categories.items():
+                display_name = category_info.get('display_name', url_name)
+                description = category_info.get('description', 'No description available')
+                subcategories = category_info.get('subcategories', [])
+                
+                click.echo(f"\n📁 {display_name}")
+                click.echo(f"   URL: {url_name}")
+                click.echo(f"   Description: {description}")
+                if subcategories:
+                    click.echo(f"   Subcategories ({len(subcategories)}): {', '.join(subcategories[:5])}")
+                    if len(subcategories) > 5:
+                        click.echo(f"   ... and {len(subcategories) - 5} more")
+                
+        else:  # list format
+            click.echo("🏷️  ProductHunt Categories")
+            click.echo("=" * 50)
+            click.echo("Use these category names with the --category option:")
+            click.echo("")
+            
+            for i, (url_name, category_info) in enumerate(main_categories.items(), 1):
+                display_name = category_info.get('display_name', url_name)
+                subcategories = category_info.get('subcategories', [])
+                subcat_count = len(subcategories)
+                
+                click.echo(f"{i:2}. {display_name:<25} (URL: {url_name})")
+                if subcat_count > 0:
+                    click.echo(f"    └─ {subcat_count} subcategories")
+            
+            click.echo(f"\n📊 Total: {len(main_categories)} main categories")
+            click.echo("\n💡 Examples:")
+            click.echo("   python src/main.py ranking --category engineering-development")
+            click.echo("   python src/main.py ranking --category \"Design & Creative\"")
+            click.echo("   python src/main.py scrape --category ai-software")
+        
+    except Exception as e:
+        click.echo(f"❌ Error loading categories: {str(e)}", err=True)
         sys.exit(1)
 
 
