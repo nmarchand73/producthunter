@@ -9,7 +9,7 @@ with open("requirements.txt", "r", encoding="utf-8") as fh:
 setup(
     name="producthunt-recap-cli",
     version="0.1.0",
-    author="Nicolas Marchand",
+    author="ProductHunt CLI Team",
     description="A CLI tool to scrape ProductHunt daily and analyze with AI",
     long_description=long_description,
     long_description_content_type="text/markdown",

@@ -12,6 +12,10 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
+from scraper import ProductHuntScraper
+from models import create_daily_report
+from config import load_config, validate_config
+
 # Setup logging
 logging.basicConfig(
     level=logging.INFO,
@@ -67,7 +71,17 @@ def main(ai_analysis, mode, date, output_dir, quiet, verbose):
     logger.info(f"Output Directory: {output_path.absolute()}")
     
     try:
-        # TODO: Implement scraping logic
+        # Load configuration
+        config = load_config()
+        validate_config(config)
+        
+        # Initialize scraper
+        scraper = ProductHuntScraper(
+            delay=config.scraping_delay,
+            max_retries=config.max_retries
+        )
+        
+        # Start scraping
         logger.info("Starting ProductHunt scraping...")
         click.echo("🚀 ProductHunt Daily Recap CLI Tool")
         click.echo(f"📅 Date: {target_date}")
@@ -78,8 +92,38 @@ def main(ai_analysis, mode, date, output_dir, quiet, verbose):
         
         click.echo(f"📁 Output: {output_path.absolute()}")
         
-        # Placeholder for actual implementation
-        click.echo("⚠️  Implementation in progress...")
+        # Scrape products
+        click.echo("🔍 Scraping ProductHunt products...")
+        products_data = scraper.scrape_daily_products(target_date)
+        
+        if not products_data:
+            click.echo("⚠️  No products found for the specified date")
+            logger.warning(f"No products found for date: {target_date}")
+            return
+        
+        click.echo(f"✅ Found {len(products_data)} products")
+        
+        # Create daily report
+        daily_report = create_daily_report(target_date, products_data)
+        
+        # TODO: Add AI analysis here when implemented
+        if ai_analysis:
+            click.echo(f"🤖 AI analysis would be performed here (mode: {mode})")
+            logger.info(f"AI analysis skipped - not yet implemented")
+        
+        # Save to file
+        output_filename = f"market-intel-{target_date}.json"
+        output_filepath = output_path / output_filename
+        
+        daily_report.save_to_file(str(output_filepath))
+        
+        click.echo(f"💾 Report saved: {output_filepath}")
+        click.echo(f"📊 Market Summary:")
+        click.echo(f"   - Total Products: {daily_report.market_summary.total_products}")
+        click.echo(f"   - Top Categories: {', '.join(daily_report.market_summary.trending_categories)}")
+        
+        if daily_report.market_summary.top_product['name']:
+            click.echo(f"   - Top Product: {daily_report.market_summary.top_product['name']} ({daily_report.market_summary.top_product['votes']} votes)")
         
         logger.info("ProductHunt scraping completed successfully")
         
