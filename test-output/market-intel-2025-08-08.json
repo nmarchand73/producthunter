@@ -1,0 +1,139 @@
+{
+  "date": "2025-08-08",
+  "market_summary": {
+    "total_products": 10,
+    "trending_categories": [
+      "Productivity",
+      "Developer Tools",
+      "Analytics"
+    ],
+    "top_product": {
+      "name": "StartupMetrics Dashboard",
+      "votes": 226,
+      "category": "Analytics"
+    },
+    "ai_market_analysis": null
+  },
+  "products": [
+    {
+      "name": "AI Productivity Suite",
+      "tagline": "Boost your workflow with intelligent automation and smart insights",
+      "votes": 218,
+      "comments": 44,
+      "url": "https://producthunt.com/posts/ai-productivity-suite",
+      "maker": "ProductivityAI",
+      "category": "Productivity",
+      "launched_at": "2025-08-08T09:38:54.517181",
+      "competitive_score": null,
+      "ai_analysis": null
+    },
+    {
+      "name": "CodeReview AI",
+      "tagline": "Automated code reviews with AI-powered suggestions and security checks",
+      "votes": 86,
+      "comments": 32,
+      "url": "https://producthunt.com/posts/codereview-ai",
+      "maker": "DevTools Pro",
+      "category": "Developer Tools",
+      "launched_at": "2025-08-08T09:38:54.517181",
+      "competitive_score": null,
+      "ai_analysis": null
+    },
+    {
+      "name": "StartupMetrics Dashboard",
+      "tagline": "Track KPIs, revenue, and growth metrics in one beautiful dashboard",
+      "votes": 226,
+      "comments": 40,
+      "url": "https://producthunt.com/posts/startupmetrics-dashboard",
+      "maker": "MetricsLab",
+      "category": "Analytics",
+      "launched_at": "2025-08-08T09:38:54.517181",
+      "competitive_score": null,
+      "ai_analysis": null
+    },
+    {
+      "name": "AI Content Generator",
+      "tagline": "Create engaging content for social media, blogs, and marketing campaigns",
+      "votes": 158,
+      "comments": 16,
+      "url": "https://producthunt.com/posts/ai-content-generator",
+      "maker": "ContentAI",
+      "category": "Marketing",
+      "launched_at": "2025-08-08T09:38:54.517181",
+      "competitive_score": null,
+      "ai_analysis": null
+    },
+    {
+      "name": "Remote Team Sync",
+      "tagline": "Keep distributed teams aligned with smart scheduling and collaboration tools",
+      "votes": 92,
+      "comments": 21,
+      "url": "https://producthunt.com/posts/remote-team-sync",
+      "maker": "RemoteFirst",
+      "category": "Collaboration",
+      "launched_at": "2025-08-08T09:38:54.517181",
+      "competitive_score": null,
+      "ai_analysis": null
+    },
+    {
+      "name": "Customer Feedback AI",
+      "tagline": "Analyze customer sentiment and extract actionable insights from reviews",
+      "votes": 78,
+      "comments": 12,
+      "url": "https://producthunt.com/posts/customer-feedback-ai",
+      "maker": "FeedbackLabs",
+      "category": "Customer Success",
+      "launched_at": "2025-08-08T09:38:54.517181",
+      "competitive_score": null,
+      "ai_analysis": null
+    },
+    {
+      "name": "Expense Tracker Pro",
+      "tagline": "Smart expense tracking with receipt scanning and budget forecasting",
+      "votes": 143,
+      "comments": 14,
+      "url": "https://producthunt.com/posts/expense-tracker-pro",
+      "maker": "FinanceTools",
+      "category": "Finance",
+      "launched_at": "2025-08-08T09:38:54.517181",
+      "competitive_score": null,
+      "ai_analysis": null
+    },
+    {
+      "name": "Design System Builder",
+      "tagline": "Create and maintain consistent design systems across your product team",
+      "votes": 106,
+      "comments": 27,
+      "url": "https://producthunt.com/posts/design-system-builder",
+      "maker": "DesignOps",
+      "category": "Design Tools",
+      "launched_at": "2025-08-08T09:38:54.517181",
+      "competitive_score": null,
+      "ai_analysis": null
+    },
+    {
+      "name": "API Security Scanner",
+      "tagline": "Automated vulnerability scanning and security testing for REST APIs",
+      "votes": 137,
+      "comments": 17,
+      "url": "https://producthunt.com/posts/api-security-scanner",
+      "maker": "SecureAPI",
+      "category": "Security",
+      "launched_at": "2025-08-08T09:38:54.517181",
+      "competitive_score": null,
+      "ai_analysis": null
+    },
+    {
+      "name": "Social Media Scheduler",
+      "tagline": "Plan, schedule, and analyze your social media presence across all platforms",
+      "votes": 178,
+      "comments": 17,
+      "url": "https://producthunt.com/posts/social-media-scheduler",
+      "maker": "SocialGrowth",
+      "category": "Social Media",
+      "launched_at": "2025-08-08T09:38:54.517181",
+      "competitive_score": null,
+      "ai_analysis": null
+    }
+  ]
+}

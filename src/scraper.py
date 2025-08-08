@@ -136,15 +136,16 @@ class ProductHuntScraper:
             for i, container in enumerate(product_containers[:20]):  # Limit to 20 products max
                 try:
                     product = self._extract_product_data(container, i)
-                    if product and product.get('name'):  # Only add if we got valid data
+                    if product and product.get('name') and not product['name'].startswith('Product '):
+                        # Only add if we got valid, non-generic data
                         products.append(product)
                 except Exception as e:
                     logger.warning(f"Failed to parse product {i}: {str(e)}")
                     continue
             
-            # If we couldn't parse any products, return mock data for development
+            # If we couldn't parse any meaningful products, return realistic mock data
             if not products:
-                logger.warning("No products found - returning mock data for development")
+                logger.warning("No meaningful products extracted - using realistic mock data for development")
                 products = self._get_mock_products()
             
         except Exception as e:
